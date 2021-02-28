@@ -1,116 +1,63 @@
-{% load static %}
+{% extends 'main/base.html' %}
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
+{% block maincontent %}
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">Pennsylvania State Legislature</h1>
+    <h1 class="jumbotron-heading">Portfolio Project</h1>
+    <p class="lead text-muted">This page displays data and analyses of bills in the <a href="https://www.legis.state.pa.us/" target="_blank">Pennsylvania General Assembly</a> as part of a data science portfolio project.</p>
+    <p class="lead text-muted">The skills on display in this project are web scraping, natural language processing, data visualization, and database management.</p>
+    <p>
+      <a href="https://github.com/AI-gregking/pa-general-assembly" class="btn btn-primary my-2" target="_blank">Source Code</a>
+      <a href="https://github.com/ai-gregking" target="_blank" class="btn btn-secondary my-2">Greg's Portfolio</a>
+    </p>
+  </div>
+</section>
 
-    <title>PA General Assembly | Analysis</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'main/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{% static 'main/album.css' %}" rel="stylesheet">
-  </head>
-
-  <body>
-
-    <header>
-      <div class="navbar navbar-dark bg-dark box-shadow">
-        <div class="container d-flex justify-content-between">
-          <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
-            <strong>PA General Assembly Project</strong>
-          </a>
-        </div>
-      </div>
-    </header>
-
-    <main role="main">
-
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1 class="jumbotron-heading">Pennsylvania State Legislature</h1>
-          <h1 class="jumbotron-heading">Portfolio Project</h1>
-          <p class="lead text-muted">This page displays data and analyses of bills in the <a href="https://www.legis.state.pa.us/" target="_blank">Pennsylvania General Assembly</a> as part of a data science portfolio project.</p>
-          <p class="lead text-muted">The skills on display in this project are web scraping, natural language processing, and data visualization.</p>
-          <p>
-            <a href="#" class="btn btn-primary my-2">Source Code</a>
-            <a href="#" class="btn btn-secondary my-2">Greg's Portfolio</a>
-          </p>
-        </div>
-      </section>
-
-      <div class="album py-5 bg-light">
-        <div class="container">
-          <div class="row justify-content-center mb-3">
-            <h2 class="jumbotron-heading">2021-2022 Regular Session</h2>
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center mb-3">
+      <h2 class="jumbotron-heading">2021-2022 Regular Session</h2>
+    </div>
+    <div class="row mb-5">
+      <!-- counter -->
+      <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
+          <p class="counter-title">House Bills</p>
+          <div class="row justify-content-center">
+            <p class="counter-title"><a href="#">View Bills</a></p>
+            <p class="pl-2 pr-2 counter-title"> | </p>
+            <p class="counter-title"><a href="#">View Analysis</a></p>
           </div>
-          <div class="row mb-5">
-            <!-- counter -->
-            <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
-                <p class="counter-title">House Bills</p>
-                <div class="row justify-content-center">
-                  <p class="counter-title"><a href="#">View Bills</a></p>
-                  <p class="pl-2 pr-2 counter-title"> | </p>
-                  <p class="counter-title"><a href="#">View Analysis</a></p>
-                </div>
-            </div> <!-- end counter -->
-            <!-- counter -->
-            <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
-              <p class="counter-title">House Resolutions</p>
-              <div class="row justify-content-center">
-                <p class="counter-title"><a href="#">View Bills</a></p>
-                <p class="pl-2 pr-2 counter-title"> | </p>
-                <p class="counter-title"><a href="#">View Analysis</a></p>
-              </div>
-            </div> <!-- end counter -->
-            <!-- counter -->
-            <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
-              <p class="counter-title">Senate Bills</p>
-              <div class="row justify-content-center">
-                <p class="counter-title"><a href="#">View Bills</a></p>
-                <p class="pl-2 pr-2 counter-title"> | </p>
-                <p class="counter-title"><a href="#">View Analysis</a></p>
-              </div>
-            </div> <!-- end counter -->
-            <!-- counter -->
-            <!-- counter -->
-            <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
-              <p class="counter-title">Senate Resolutions</p>
-              <div class="row justify-content-center">
-                <p class="counter-title"><a href="#">View Bills</a></p>
-                <p class="pl-2 pr-2 counter-title"> | </p>
-                <p class="counter-title"><a href="#">View Analysis</a></p>
-              </div>
-            </div> <!-- end counter -->
-          </div>
+      </div> <!-- end counter -->
+      <!-- counter -->
+      <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
+        <p class="counter-title">House Resolutions</p>
+        <div class="row justify-content-center">
+          <p class="counter-title"><a href="#">View Bills</a></p>
+          <p class="pl-2 pr-2 counter-title"> | </p>
+          <p class="counter-title"><a href="#">View Analysis</a></p>
         </div>
-      </div>
-
-    </main>
-
-    <footer class="text-muted">
-      <div class="container">
-        <p class="float-right">
-          <a href="#">Back to top</a>
-        </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
-      </div>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="{% static 'main/assets/js/vendor/jquery-slim.min.js' %}"><\/script>')</script>
-    <script src="{% static 'main/assets/js/vendor/popper.min.js' %}"></script>
-    <script src="{% static 'main/dist/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'main/assets/js/vendor/holder.min.js' %}"></script>
-  </body>
-</html>
+      </div> <!-- end counter -->
+      <!-- counter -->
+      <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">{{ s_bills }}</span>
+        <p class="counter-title">Senate Bills</p>
+        <div class="row justify-content-center">
+          <p class="counter-title"><a href="{% url 'senate-bills' %}">View Bills</a></p>
+          <p class="pl-2 pr-2 counter-title"> | </p>
+          <p class="counter-title"><a href="#">View Analysis</a></p>
+        </div>
+      </div> <!-- end counter -->
+      <!-- counter -->
+      <!-- counter -->
+      <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
+        <p class="counter-title">Senate Resolutions</p>
+        <div class="row justify-content-center">
+          <p class="counter-title"><a href="#">View Bills</a></p>
+          <p class="pl-2 pr-2 counter-title"> | </p>
+          <p class="counter-title"><a href="#">View Analysis</a></p>
+        </div>
+      </div> <!-- end counter -->
+    </div>
+  </div>
+</div>
+{% endblock %}
