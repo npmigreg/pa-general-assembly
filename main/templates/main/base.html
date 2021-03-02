@@ -13,9 +13,14 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'main/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static 'main/assets/js/vendor/jquery-slim.min.js' %}"><\/script>')</script>
 
     <!-- Custom styles for this template -->
     <link href="{% static 'main/album.css' %}" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -50,8 +55,6 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="{% static 'main/assets/js/vendor/jquery-slim.min.js' %}"><\/script>')</script>
     <script src="{% static 'main/assets/js/vendor/popper.min.js' %}"></script>
     <script src="{% static 'main/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'main/assets/js/vendor/holder.min.js' %}"></script>

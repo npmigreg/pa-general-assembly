@@ -3,6 +3,10 @@ from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from .models import *
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -18,6 +22,11 @@ def home(request):
         's_bills':s_bills,
     }
     return render(request, 'main/index.html', context)
+
+class SenateBillsList(ListView):
+    model = SenateBills
+    paginate_by = 10
+    ordering = ['-bill_number']
 
 @login_required
 def get_sb_data(request):
@@ -91,7 +100,27 @@ def get_sb_data(request):
 
     return redirect("/")
 
-class senate_bills(ListView):
-    model = SenateBills
-    paginate_by = 10
-    ordering = ['-bill_number']
+class RenderSBData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        s_bills = SenateBills.objects.all().values()
+        sb_df = pd.DataFrame(list(s_bills))
+
+        prime_sponsor = sb_df['prime_sponsor'].value_counts()[:10]
+        sb_prime_labels = list(prime_sponsor.index)
+        sb_prime_data = list(prime_sponsor)
+
+        data = {
+            "sb_prime_labels":sb_prime_labels,
+            "sb_prime_data":sb_prime_data,
+        }
+
+        return Response(data)
+
+def sb_analysis(request):
+    return render(request, 'main/sb_analysis.html')
+
+def sb_dashboard(request):
+    return render(request, 'main/sb-dashboard.html')
