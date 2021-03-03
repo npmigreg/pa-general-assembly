@@ -22,7 +22,6 @@
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'home' %}">PA General Assembly Project</a>
-      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     </nav>
 
     <div class="container-fluid">
@@ -33,7 +32,7 @@
               <li class="nav-item">
                 <a class="nav-link active" href="#">
                   <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
+                  Sponsors <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -104,32 +103,53 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2">
             <h1 class="h2">Senate Bills Dashboard</h1>
           </div>
+          <div class="row ml-1 text-muted border-bottom">
+            <h4>Sponsors Analysis</h4>
+          </div>
           
-          <div class="row justify-content-center mt-5">
-            <h3 class="h3">Most Frequent Prime Sponsors</h3>
+          <div class="row">
+            <div class="col-sm-6">
+              <canvas class="my-4 mb-4" id="myChart2" width="400" height="200"></canvas>
+            </div>
+            <div class="col-sm-6">
+              <canvas class="my-4 mb-4" id="myChart" width="400" height="200"></canvas>
+            </div>
           </div>
-          <canvas class="my-4" id="myChart" width="900" height="200"></canvas>
 
-          <h2>Section title</h2>
-          <div class="table-responsive">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th># of Bills</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td>Lorem</td>
-                </tr>
-              </tbody>
-            </table>
+          <hr>
+
+          <div class="row ml-3 mr-3">
+            <div class="table-responsive col-sm-6">
+              <h4 class="text-muted">All Sponsors Table</h4>
+              <table class="table table-striped table-sm" id="all_sponsors_table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th># of Bills</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-responsive col-sm-6">
+              <h4 class="text-muted">Prime Sponsors Table</h4>
+              <table class="table table-striped table-sm" id="prime_table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th># of Bills</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
           </div>
+
         </main>
       </div>
     </div>
@@ -155,9 +175,12 @@
           method: 'GET',
           url: endpoint,
           success: function(data){
-              sb_prime_data = data.sb_prime_data
-              sb_prime_labels = data.sb_prime_labels
+              prime_data = data.prime_data
+              prime_labels = data.prime_labels
+              all_sponsors_data = data.all_sponsors_data
+              all_sponsors_labels = data.all_sponsors_labels
               setChart()
+              setTable()
           },
           error: function(error_data){
               console.log("error"),
@@ -167,24 +190,20 @@
   
       function setChart(){
           var ctx = document.getElementById('myChart').getContext('2d');
+          var ctx2 = document.getElementById('myChart2').getContext('2d');
           var myChart = new Chart(ctx, {
               type: 'bar',
               data: {
-                  labels: sb_prime_labels,
+                  labels: prime_labels.slice(0,5),
                   datasets: [{
                       label: '# of Bills',
-                      data: sb_prime_data,
+                      data: prime_data.slice(0,5),
                       backgroundColor: [
-                          '#f94144',
-                          '#f3722c',
-                          '#f8961e',
-                          '#f9844a',
-                          '#f9c74f',
-                          '#90be6d',
-                          '#43aa8b',
-                          '#4d908e',
-                          '#577590',
-                          '#277da1',
+                          '#7180AC',
+                          '#2B4570',
+                          '#A8D0DB',
+                          '#E49273',
+                          '#A37A74',
                       ],
                       borderWidth: 1
                   }]
@@ -194,11 +213,80 @@
                       yAxes: [{
                           ticks: {
                               beginAtZero: true
+                          },
+                          scaleLabel: {
+                            display: true,
+                            labelString: '# of Bills',
+                            fontSize: 18,
                           }
                       }]
+                  },
+                  title: {
+                      display: true,
+                      text: 'Most Frequent Prime Sponsors',
+                      fontSize: 20,
+                  },
+                  legend: {
+                      display: false
                   }
               }
+            });
+          var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: all_sponsors_labels.slice(0,5),
+                datasets: [{
+                    label: '# of Bills',
+                    data: all_sponsors_data.slice(0,5),
+                    backgroundColor: [
+                        '#7180AC',
+                        '#2B4570',
+                        '#A8D0DB',
+                        '#E49273',
+                        '#A37A74',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: '# of Bills',
+                          fontSize: 18,
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Most Frequent Total Sponsors',
+                    fontSize: 20,
+                },
+                legend: {
+                    display: false
+                }
+            }
           });
+        }
+      function setTable() {
+        for (i = 0; i < prime_labels.slice(0,20).length; i++) {
+          $("#prime_table tbody").append(
+            "<tr>"
+                +"<td>"+prime_labels[i]+"</td>"
+                +"<td>"+prime_data[i]+"</td>"
+            +"</tr>" )
+        }
+        for (i =0; i < all_sponsors_labels.slice(0,20).length; i++) {
+          $("#all_sponsors_table tbody").append(
+            "<tr>"
+                +"<td>"+all_sponsors_labels[i]+"</td>"
+                +"<td>"+all_sponsors_data[i]+"</td>"
+            +"</tr>" )
+        }
       }
   </script>
   </body>

@@ -100,6 +100,82 @@ def get_sb_data(request):
 
     return redirect("/")
 
+
+@login_required
+def get_sr_data(request):
+    URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=S'
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    results = soup.find_all('table', class_='DataTable')[1]
+
+    resolution_links = []
+
+    for a in results.find_all('a', href=True):
+        resolution_links.append(a['href'])
+
+    for r in resolution_links:
+        new_senate_res = SenateResolutions()
+        res_url = 'https://www.legis.state.pa.us' + r
+        res_page = requests.get(res_url)
+        res_soup = BeautifulSoup(res_page.content, 'html.parser')
+
+        res_number = res_soup.find('h2', class_='BillInfo-BillHeader').text.split('Bill')[1].strip()
+        new_senate_res.resolution_number = int(res_number)
+
+        history_url = res_soup.find('div', class_='BillInfo-NavLinks2').find('a', href=True)['href'].strip()
+        history_url = 'https://www.legis.state.pa.us/cfdocs/billinfo/' + history_url
+        history_page = requests.get(history_url)
+        history_soup = BeautifulSoup(history_page.content, 'html.parser')
+
+        res_date_introduced = history_soup.find('div', class_='BillInfo-Actions').find('div', class_='BillInfo-Section-Data').find_all('td')[2].text.strip()
+        res_date_introduced = res_date_introduced.split()
+        res_date_introduced = ' '.join(res_date_introduced[-3:])
+        new_senate_res.date_introduced = res_date_introduced
+
+        """
+        bill_all_sponsors = history_soup.find('div', class_='BillInfo-PrimeSponsor').find('div', class_='BillInfo-Section-Data').find_all('a', href=True)
+        all_sponsors_list = []
+        for s in bill_all_sponsors:
+            all_sponsors_list.append(s.text)
+        all_sponsors_list = ', '.join(all_sponsors_list)
+        new_senate_bill.all_sponsors = all_sponsors_list
+
+        bill_session = bill_soup.find('h2', class_='BillInfo-BillHeader').text.split('Senate')[0].strip()
+        new_senate_bill.session = bill_session
+
+        bill_short_title = bill_soup.find('div', class_='BillInfo-ShortTitle').find('div', class_='BillInfo-Section-Data').text.strip()
+        new_senate_bill.short_title = bill_short_title
+
+        bill_prime_sponsor = bill_soup.find('div', class_='BillInfo-PrimeSponsor').find('a', href=True).text.strip()
+        new_senate_bill.prime_sponsor = bill_prime_sponsor
+
+        bill_prime_sponsor_url = bill_soup.find('div', class_='BillInfo-PrimeSponsor').find('a', href=True)['href'].strip()
+        new_senate_bill.prime_sponsor_url = bill_prime_sponsor_url
+
+        bill_last_action = bill_soup.find('div', class_='BillInfo-LastAction').find('div', class_='BillInfo-Section-Data').text.strip()
+        new_senate_bill.last_action = bill_last_action
+
+        try:
+            bill_memo_title = bill_soup.find('div', class_='BillInfo-CosponMemo').find('a', href=True).text.strip()
+            new_senate_bill.memo_title = bill_memo_title
+        except:
+            bill_memo_title = None
+
+        try:
+            bill_memo_url = bill_soup.find('div', class_='BillInfo-CosponMemo').find('a', href=True)['href'].strip()
+            new_senate_bill.memo_url = bill_memo_url
+        except:
+            bill_memo_url = None
+
+        bill_text = bill_soup.find('div', class_='BillInfo-PN').find('table', class_='BillInfo-PNTable').find_all('td')[1].find('a', href=True)['href'].strip()
+        new_senate_bill.bill_text = 'https://www.legis.state.pa.us' + bill_text
+        """
+
+        new_senate_res.save()
+
+    return redirect("/")
+
+
 class RenderSBData(APIView):
     authentication_classes = []
     permission_classes = []
@@ -108,19 +184,27 @@ class RenderSBData(APIView):
         s_bills = SenateBills.objects.all().values()
         sb_df = pd.DataFrame(list(s_bills))
 
-        prime_sponsor = sb_df['prime_sponsor'].value_counts()[:10]
-        sb_prime_labels = list(prime_sponsor.index)
-        sb_prime_data = list(prime_sponsor)
+        prime_sponsor = sb_df['prime_sponsor'].value_counts()
+        prime_labels = list(prime_sponsor.index)
+        prime_labels_new = []
+        for l in prime_labels:
+            prime_labels_new.append(l.strip('Senator '))
+        prime_data = list(prime_sponsor)
+
+        all_sponsors = sb_df['all_sponsors'].str.split(',', expand=True).stack()
+        all_sponsors = all_sponsors.str.strip()
+        all_sponsors = all_sponsors.value_counts()
+        all_sponsors_labels = list(all_sponsors.index)
+        all_sponsors_data = list(all_sponsors)
 
         data = {
-            "sb_prime_labels":sb_prime_labels,
-            "sb_prime_data":sb_prime_data,
+            "prime_labels":prime_labels_new,
+            "prime_data":prime_data,
+            "all_sponsors_labels":all_sponsors_labels,
+            "all_sponsors_data":all_sponsors_data,
         }
 
         return Response(data)
-
-def sb_analysis(request):
-    return render(request, 'main/sb_analysis.html')
 
 def sb_dashboard(request):
     return render(request, 'main/sb-dashboard.html')
