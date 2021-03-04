@@ -28,7 +28,7 @@ class SenateResolutions(models.Model):
     last_action = models.TextField(null=True, blank=True)
     memo_title = models.TextField(null=True, blank=True)
     memo_url = models.URLField(max_length=255, null=True, blank=True)
-    bill_text = models.URLField(max_length=255, null=True, blank=True)
+    resolution_text = models.URLField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.session + ' Senate Resolution ' + str(self.resolution_number)
