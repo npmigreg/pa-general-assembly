@@ -13,6 +13,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from collections import Counter
+import gensim
+import string
+from gensim import corpora
+from gensim.corpora.dictionary import Dictionary
 
 # Create your views here.
 def home(request):
@@ -244,3 +253,36 @@ def sb_dashboard(request):
 
 def sr_dashboard(request):
     return render(request, 'main/sr-dashboard.html')
+
+def sr_text_analysis(request):
+    s_res = SenateResolutions.objects.all().values()
+    sr_df = pd.DataFrame(list(s_res))
+
+    short_titles = list(sr_df['short_title'])
+
+    stop_words = set(stopwords.words('english'))
+    exclude = set(string.punctuation)
+    lemma = WordNetLemmatizer()
+
+    def clean(document):
+        stopwordremoval = " ".join([i for i in document.lower().split() if i not in stop_words])
+        punctuationremoval = ''.join(ch for ch in stopwordremoval if ch not in exclude)
+        normalized = " ".join(lemma.lemmatize(word) for word in punctuationremoval.split())
+        return normalized
+
+    final_doc = [clean(document).split() for document in short_titles]
+
+    dictionary = corpora.Dictionary(final_doc)
+
+    DT_matrix = [dictionary.doc2bow(doc) for doc in final_doc]
+
+    Lda_object = gensim.models.ldamodel.LdaModel
+
+    lda_model_1 = Lda_object(DT_matrix, num_topics=10, id2word = dictionary)
+    model_results = lda_model_1.print_topics(num_topics=10, num_words=10)
+
+    context = {
+        'short_titles':model_results,
+    }
+
+    return render(request, 'main/sr-text-analysis.html', context)
