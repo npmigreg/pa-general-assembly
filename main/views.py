@@ -271,6 +271,16 @@ def sr_text_analysis(request):
         return normalized
 
     final_doc = [clean(document).split() for document in short_titles]
+    final_doc_exclusion = ['resolution', 'senate', 'session', 'pennsylvania', 'general', 'commonwealth', 'adopting', 'declaring', 'rule', '2020', '2021', 'january',
+                           'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'president', 'vice', 'day',
+                           'week', 'month', 'year', 'state', 'bill', 'recognizing', 'designating', '205th', '206th']
+
+    number_range = list(range(0,500))
+    number_range = map(str, number_range)
+    number_list = list(number_range)
+    final_doc_exclusion.extend(number_list)
+
+    final_doc = [[i for i in doc if i not in final_doc_exclusion] for doc in final_doc]
 
     dictionary = corpora.Dictionary(final_doc)
 
@@ -278,8 +288,8 @@ def sr_text_analysis(request):
 
     Lda_object = gensim.models.ldamodel.LdaModel
 
-    lda_model_1 = Lda_object(DT_matrix, num_topics=10, id2word = dictionary)
-    model_results = lda_model_1.print_topics(num_topics=10, num_words=10)
+    lda_model_1 = Lda_object(DT_matrix, num_topics=8, id2word = dictionary)
+    model_results = lda_model_1.print_topics(num_topics=8, num_words=3)
 
     context = {
         'short_titles':model_results,

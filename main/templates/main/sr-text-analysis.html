@@ -1,8 +1,36 @@
 {% extends 'main/dashboard-base.html' %}
 
-{% block maincontent %}
-<div class="container">
-    <h5>{{ short_titles }}</h5>
-</div>
+{% block nav-active-2 %}
+  active
+{% endblock %}
 
+{% block nav-link-1 %}
+  {% url 'sr-dashboard' %}
+{% endblock %}
+
+{% block nav-link-2 %}
+  {% url 'sr-text-analysis' %}
+{% endblock %}
+
+{% block maincontent %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2">
+      <h1 class="h2">Senate Resolutions Dashboard</h1>
+    </div>
+    <div class="row ml-1 text-muted border-bottom">
+      <h4>Text Analysis - Natural Language Processing</h4>
+    </div>
+    <div class="row mt-4 col-lg-10">
+        <h4>Latent Dirichlet Allocation Results on Senate Resolution Short Titles</h4>
+        <p>The following list of topics are being generated from an LDA model constructed using short titles scraped from the PA General Assembly Senate Resolutions.
+            With the current number of Resolutions held in the database, a model with eight topics and three words per topic was selected as optimal; refresh the page to
+            run the model again and obtain new results.
+        </p>
+    </div>
+    <ul class="list-group col-lg-10">
+        {% for i in short_titles %}
+        <li class="list-group-item">{{ i }}</li>
+        {% endfor %}
+      </ul>
+</main>
 {% endblock %}
