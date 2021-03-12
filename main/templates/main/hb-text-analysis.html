@@ -5,24 +5,24 @@
 {% endblock %}
 
 {% block nav-link-1 %}
-  {% url 'sb-dashboard' %}
+  {% url 'hb-dashboard' %}
 {% endblock %}
 
 {% block nav-link-2 %}
-  {% url 'sb-text-analysis' %}
+  {% url 'hb-text-analysis' %}
 {% endblock %}
 
 {% block maincontent %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2">
-      <h1 class="h2">Senate Bills Dashboard</h1>
+      <h1 class="h2">House Bills Dashboard</h1>
     </div>
     <div class="row ml-1 text-muted border-bottom">
       <h4>Text Analysis - Natural Language Processing</h4>
     </div>
     <div class="row mt-4 col-lg-10">
-      <h4>Latent Dirichlet Allocation Results on Senate Bill Short Titles</h4>
-      <p>The following list of topics are being generated from an LDA model constructed using short titles scraped from the PA General Assembly Senate Bills.
+      <h4>Latent Dirichlet Allocation Results on House Bill Short Titles</h4>
+      <p>The following list of topics are being generated from an LDA model constructed using short titles scraped from the PA General Assembly House Bills.
           With the current number of Bills held in the database, a model with ten topics and three words per topic was selected as optimal; refresh the page to
           run the model again and obtain new results.
       </p>
@@ -33,7 +33,7 @@
       {% endfor %}
     </ul>
     <div class="row mt-4 col-lg-10">
-      <p>In addition to regular stop words, an exclusion list of words that frequently appeared in Senate Bill short titles but did not provide relevance to
+      <p>In addition to regular stop words, an exclusion list of words that frequently appeared in House Bill short titles but did not provide relevance to
         topic analysis was created, and those words were removed from the final documents used in LDA. For more insight into the methods used to produce these results,
         view the project Github.
       </p>

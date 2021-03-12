@@ -1,0 +1,191 @@
+{% extends 'main/dashboard-base.html' %}
+
+{% block nav-active-1 %}
+  active
+{% endblock %}
+
+{% block nav-link-1 %}
+  {% url 'hb-dashboard' %}
+{% endblock %}
+
+{% block nav-link-2 %}
+  {% url 'hb-text-analysis' %}
+{% endblock %}
+
+{% block maincontent %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2">
+    <h1 class="h2">House Bills Dashboard</h1>
+  </div>
+  <div class="row ml-1 text-muted border-bottom">
+    <h4>Sponsors Analysis</h4>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-6">
+      <canvas class="my-4 mb-4" id="myChart2" width="400" height="200"></canvas>
+    </div>
+    <div class="col-sm-6">
+      <canvas class="my-4 mb-4" id="myChart" width="400" height="200"></canvas>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row ml-3 mr-3">
+    <div class="table-responsive col-sm-6">
+      <h4 class="text-muted">All Sponsors Table</h4>
+      <table class="table table-striped table-sm" id="all_sponsors_table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th># of Bills</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive col-sm-6">
+      <h4 class="text-muted">Prime Sponsors Table</h4>
+      <table class="table table-striped table-sm" id="prime_table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th># of Bills</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+{% endblock %}
+
+{% block chartscript %}
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+<script>
+var endpoint = '/api/data/hb/'
+
+$.ajax({
+  method: 'GET',
+  url: endpoint,
+  success: function(data){
+      prime_data = data.prime_data
+      prime_labels = data.prime_labels
+      all_sponsors_data = data.all_sponsors_data
+      all_sponsors_labels = data.all_sponsors_labels
+      setChart()
+      setTable()
+  },
+  error: function(error_data){
+      console.log("error"),
+      console.log(error_data)
+  }
+})
+
+function setChart(){
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var ctx2 = document.getElementById('myChart2').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: prime_labels.slice(0,5),
+          datasets: [{
+              label: '# of Bills',
+              data: prime_data.slice(0,5),
+              backgroundColor: [
+                  '#7180AC',
+                  '#2B4570',
+                  '#A8D0DB',
+                  '#E49273',
+                  '#A37A74',
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: '# of Bills',
+                    fontSize: 18,
+                  }
+              }]
+          },
+          title: {
+              display: true,
+              text: 'Most Frequent Prime Sponsors',
+              fontSize: 20,
+          },
+          legend: {
+              display: false
+          }
+      }
+    });
+  var myChart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: all_sponsors_labels.slice(0,5),
+        datasets: [{
+            label: '# of Bills',
+            data: all_sponsors_data.slice(0,5),
+            backgroundColor: [
+                '#7180AC',
+                '#2B4570',
+                '#A8D0DB',
+                '#E49273',
+                '#A37A74',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: '# of Bills',
+                  fontSize: 18,
+                }
+            }]
+        },
+        title: {
+            display: true,
+            text: 'Most Frequent Total Sponsors',
+            fontSize: 20,
+        },
+        legend: {
+            display: false
+        }
+    }
+  });
+}
+function setTable() {
+for (i = 0; i < prime_labels.slice(0,20).length; i++) {
+  $("#prime_table tbody").append(
+    "<tr>"
+        +"<td>"+prime_labels[i]+"</td>"
+        +"<td>"+prime_data[i]+"</td>"
+    +"</tr>" )
+}
+for (i =0; i < all_sponsors_labels.slice(0,20).length; i++) {
+  $("#all_sponsors_table tbody").append(
+    "<tr>"
+        +"<td>"+all_sponsors_labels[i]+"</td>"
+        +"<td>"+all_sponsors_data[i]+"</td>"
+    +"</tr>" )
+}
+}
+</script>
+{% endblock %}

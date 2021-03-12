@@ -3,7 +3,7 @@
 {% block maincontent %}
 <div class="container">
     <div class="row mt-5 justify-content-center">
-        <h1 class="jumbotron-heading">Recent Senate Resolutions</h1>
+        <h1 class="jumbotron-heading">Recent House Bills</h1>
     </div>
     <div class="row justify-content-center">
       <h3 class="jumbotron-heading">Regular Session 2021-2022</h3>
@@ -15,7 +15,7 @@
         <div class="col-sm-6 mb-4 d-flex align-items-stretch">
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="align-middle">Senate Resolution {{ object.resolution_number }}</h5>
+              <h5 class="align-middle">House Bill {{ object.bill_number }}</h5>
               {% if object.date_introduced %}
               <p class="text-muted align-middle">Introduced {{ object.date_introduced }}</p>
               {% endif %}
@@ -29,8 +29,8 @@
               {% if object.memo_title %}
               <p class="card-text"><strong>Memo:</strong> <a href="{{ object.memo_url }}" target="_blank">{{ object.memo_title }}</a></p>
               {% endif %}
-              {% if object.resolution_text %}
-              <a href="{{ object.resolution_text }}" class="btn btn-primary align-self-end mt-auto" target="_blank">View Resolution Text</a>
+              {% if object.bill_text %}
+              <a href="{{ object.resolution_text }}" class="btn btn-primary align-self-end mt-auto" target="_blank">View Bill Text</a>
               {% endif %}
             </div>
           </div>
