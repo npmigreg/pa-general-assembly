@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import nltk
+nltk.download('wordnet')
+nltk.download('stopwords')
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
