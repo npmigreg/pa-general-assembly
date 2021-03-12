@@ -30,12 +30,12 @@
           </div>
       </div> <!-- end counter -->
       <!-- counter -->
-      <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">280</span>
+      <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;"> <i class="fa fa-beer medium-icon"></i> <span id="anim-number-pizza" class="counter-number"></span> <span class="timer counter alt-font appear" data-to="980" data-speed="7000">{{ h_res }}</span>
         <p class="counter-title">House Resolutions</p>
         <div class="row justify-content-center">
-          <p class="counter-title"><a href="#">View Bills</a></p>
+          <p class="counter-title"><a href="{% url 'house-resolutions' %}">View Bills</a></p>
           <p class="pl-2 pr-2 counter-title"> | </p>
-          <p class="counter-title"><a href="#">View Analysis</a></p>
+          <p class="counter-title"><a href="{% url 'hr-dashboard' %}">View Analysis</a></p>
         </div>
       </div> <!-- end counter -->
       <!-- counter -->
