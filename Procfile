@@ -1,1 +1,1 @@
-web: gunicorn pa_analysis.wsgi
+web: python manage.py collectstatic --no-input; gunicorn pa_analysis.wsgi --log-file - --log-level debug
