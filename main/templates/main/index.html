@@ -3,13 +3,13 @@
 {% block maincontent %}
 <section class="jumbotron text-center">
   <div class="container">
-    <h1 class="jumbotron-heading">Pennsylvania State Legislature</h1>
+    <h1 class="jumbotron-heading">Pennsylvania General Assembly</h1>
     <h1 class="jumbotron-heading">Portfolio Project</h1>
-    <p class="lead text-muted">This page displays data and analyses of bills in the <a href="https://www.legis.state.pa.us/" target="_blank">Pennsylvania General Assembly</a> as part of a data science portfolio project.</p>
-    <p class="lead text-muted">The skills on display in this project are web scraping, natural language processing, data visualization, and database management.</p>
+    <p class="lead text-muted">This site displays data and analyses of bills in the <a href="https://www.legis.state.pa.us/" target="_blank">Pennsylvania General Assembly</a> as part of a data science portfolio project.</p>
+    <p class="lead text-muted">The skills on display in this project are web scraping, web development, natural language processing, data visualization, and database management.</p>
     <p>
-      <a href="https://github.com/AI-gregking/pa-general-assembly" class="btn btn-primary my-2" target="_blank">Source Code</a>
-      <a href="https://github.com/ai-gregking" target="_blank" class="btn btn-secondary my-2">Greg's Portfolio</a>
+      <a href="https://github.com/AI-gregking/pa-general-assembly" class="btn btn-primary my-2" target="_blank">Github Repo</a>
+      <a href="https://github.com/ai-gregking" target="_blank" class="btn btn-secondary my-2">My Portfolio</a>
     </p>
   </div>
 </section>
@@ -26,7 +26,7 @@
           <div class="row justify-content-center">
             <p class="counter-title"><a href="{% url 'house-bills' %}">View Bills</a></p>
             <p class="pl-2 pr-2 counter-title"> | </p>
-            <p class="counter-title"><a href="#">View Analysis</a></p>
+            <p class="counter-title"><a href="{% url 'hb-dashboard' %}">View Analysis</a></p>
           </div>
       </div> <!-- end counter -->
       <!-- counter -->
