@@ -1,0 +1,1 @@
+web: gunicorn pa_analysis.wsgi
