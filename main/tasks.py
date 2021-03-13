@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 @task
-def get_hb_data(request):
+def get_hb_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=H'
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -91,7 +91,7 @@ def get_hb_data(request):
             new_house_bill.save()
 
 @task
-def get_hr_data(request):
+def get_hr_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=H'
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -174,7 +174,7 @@ def get_hr_data(request):
             new_house_res.save()
 
 @task
-def get_sb_data(request):
+def get_sb_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=S'
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
