@@ -3,10 +3,6 @@ from .views import *
 
 urlpatterns = [
     path('', home, name="home"),
-    path('get-hb-data/', get_hb_data, name="get-hb-data"),
-    path('get-hr-data/', get_hr_data, name="get-hr-data"),
-    path('get-sb-data/', get_sb_data, name="get-sb-data"),
-    path('get-sr-data/', get_sr_data, name="get-sr-data"),
     path('house-bills/', HouseBillsList.as_view(template_name = "main/house_bills.html"), name='house-bills'),
     path('house-resolutions/', HouseResolutionsList.as_view(template_name = "main/house_resolutions.html"), name='house-resolutions'),
     path('senate-bills/', SenateBillsList.as_view(template_name = "main/senate_bills.html"), name='senate-bills'),

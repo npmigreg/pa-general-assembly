@@ -13,6 +13,9 @@ class HouseResolutions(models.Model):
     memo_url = models.URLField(max_length=255, null=True, blank=True)
     resolution_text = models.URLField(max_length=255, null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "House Resolutions"
+
     def __str__(self):
         return self.session + ' House Resolution ' + str(self.resolution_number) 
 
@@ -28,6 +31,9 @@ class HouseBills(models.Model):
     memo_title = models.TextField(null=True, blank=True)
     memo_url = models.URLField(max_length=255, null=True, blank=True)
     bill_text = models.URLField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "House Bills"
 
     def __str__(self):
         return self.session + ' House Bill ' + str(self.bill_number)  
@@ -45,6 +51,9 @@ class SenateBills(models.Model):
     memo_url = models.URLField(max_length=255, null=True, blank=True)
     bill_text = models.URLField(max_length=255, null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Senate Bills"
+
     def __str__(self):
         return self.session + ' Senate Bill ' + str(self.bill_number)
 
@@ -60,6 +69,9 @@ class SenateResolutions(models.Model):
     memo_title = models.TextField(null=True, blank=True)
     memo_url = models.URLField(max_length=255, null=True, blank=True)
     resolution_text = models.URLField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Senate Resolutions"
 
     def __str__(self):
         return self.session + ' Senate Resolution ' + str(self.resolution_number)

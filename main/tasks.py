@@ -1,12 +1,15 @@
-# Create your tasks here
-from .models import *
-
+# Celery decorator to create tasks
 from celery.decorators import task
 
+# Import models to save scraped data to
+from .models import *
+
+# Web scraper imports
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+# Task to scrape data for House Bills
 @task(ignore_result=True)
 def get_hb_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=H'
@@ -90,6 +93,7 @@ def get_hb_data():
 
             new_house_bill.save()
 
+# Task to scrape data for House Resolutions
 @task(ignore_result=True)
 def get_hr_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=H'
@@ -173,6 +177,7 @@ def get_hr_data():
 
             new_house_res.save()
 
+# Task to scrape data for Senate Bills
 @task(ignore_result=True)
 def get_sb_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=S'
@@ -256,6 +261,7 @@ def get_sb_data():
 
             new_senate_bill.save()
 
+# Task to scrape data for Senate Resolutions
 @task(ignore_result=True)
 def get_sr_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=S'
@@ -338,7 +344,3 @@ def get_sr_data():
                 res_text = None
 
             new_senate_res.save()
-
-@task(ignore_result=True)
-def celery_add(x, y):
-    return x + y
