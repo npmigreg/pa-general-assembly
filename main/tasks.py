@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-@task
+@task(ignore_result=True)
 def get_hb_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=H'
     page = requests.get(URL)
@@ -90,7 +90,7 @@ def get_hb_data():
 
             new_house_bill.save()
 
-@task
+@task(ignore_result=True)
 def get_hr_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=H'
     page = requests.get(URL)
@@ -173,7 +173,7 @@ def get_hr_data():
 
             new_house_res.save()
 
-@task
+@task(ignore_result=True)
 def get_sb_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=S'
     page = requests.get(URL)
@@ -256,7 +256,7 @@ def get_sb_data():
 
             new_senate_bill.save()
 
-@task
+@task(ignore_result=True)
 def get_sr_data():
     URL = 'https://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2021&sIndex=0&bod=S'
     page = requests.get(URL)
@@ -339,6 +339,6 @@ def get_sr_data():
 
             new_senate_res.save()
 
-@task
+@task(ignore_result=True)
 def celery_add(x, y):
     return x + y
